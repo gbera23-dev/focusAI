@@ -40,3 +40,4 @@ Each mode will apply a prompt prefix that instructs the LLM how to respond. Mode
 - The service must support clearing the current session context.
 - The service must support changing or prefixing the active mode prompt when the user toggles between Learn/Study mode and Work mode.
 - Keep API transport concerns in `geminiApi.js` and session, looping, context, and mode behavior in `geminiService.js`.
+- For this application, direct browser-to-Gemini requests using the configured API key are intentional. Do not introduce a proxy server solely to hide the key unless the user later requests that architecture.

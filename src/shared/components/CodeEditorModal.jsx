@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import EditorModule from 'react-simple-code-editor'
 import Prism from 'prismjs'
+import { clearScratchpad, getScratchpad, saveScratchpad } from '../services/geminiService'
 import 'prismjs/components/prism-c'
 import 'prismjs/components/prism-cpp'
 import 'prismjs/components/prism-java'
@@ -11,6 +12,8 @@ import './CodeEditorModal.css'
 const Editor = EditorModule.default ?? EditorModule
 
 const DEFAULT_LANGUAGE = 'c';
+const MAX_FONT_SIZE = 140; 
+const DEFAULT_FONT_SIZE = 14; 
 
 const languages = [
   { value: 'c', label: 'C' },
@@ -21,8 +24,13 @@ const languages = [
 ]
 
 function CodeEditorModal({ onAdd, onClose }) {
-  const [code, setCode] = useState('')
-  const [language, setLanguage] = useState(DEFAULT_LANGUAGE)
+  const [code, setCode] = useState(() => getScratchpad().code)
+  const [language, setLanguage] = useState(() => getScratchpad().language)
+  const [fontSize, setFontSize] = useState(DEFAULT_FONT_SIZE)
+
+  useEffect(() => {
+    saveScratchpad({ code, language })
+  }, [code, language])
 
   const highlight = (value) => {
     const grammar = Prism.languages[language] ?? Prism.languages.plain
@@ -33,6 +41,16 @@ function CodeEditorModal({ onAdd, onClose }) {
     if (!code.trim()) return
     onAdd(code, language)
     onClose()
+  }
+
+  const handleClearScratchpad = () => {
+    clearScratchpad()
+    setCode('')
+    setLanguage(DEFAULT_LANGUAGE)
+  }
+
+  const handleFontSizeChange = () => {
+    setFontSize(Math.max(DEFAULT_FONT_SIZE, (fontSize+DEFAULT_FONT_SIZE) % MAX_FONT_SIZE ));
   }
 
   const handleEditorKeyDown = (event) => {
@@ -70,7 +88,11 @@ function CodeEditorModal({ onAdd, onClose }) {
             <span className="code-editor-modal__eyebrow">Code scratchpad</span>
             <h2 id="code-editor-title">Add code to your message</h2>
           </div>
-          <button className="code-editor-modal__close" type="button" onClick={onClose} aria-label="Close code editor">×</button>
+          <div className="code-editor-modal__actions">
+            <button className="code-editor-modal__changefont" type="button" onClick={handleFontSizeChange}>Font size</button>
+            <button className="code-editor-modal__clear" type="button" onClick={handleClearScratchpad}>Clear scratchpad</button>
+            <button className="code-editor-modal__close" type="button" onClick={onClose} aria-label="Close code editor">×</button>
+          </div>
         </header>
 
         <div className="code-editor-modal__controls">
@@ -89,7 +111,7 @@ function CodeEditorModal({ onAdd, onClose }) {
             padding={18}
             textareaId="code-editor-input"
             placeholder="Write or paste code here..."
-            style={{ minHeight: '280px', fontFamily: 'var(--mono)', fontSize: 14, lineHeight: 1.6 }}
+            style={{ fontFamily: 'var(--mono)', fontSize: fontSize, lineHeight: 1.6 }}
           />
         </div>
 

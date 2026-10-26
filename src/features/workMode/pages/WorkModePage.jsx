@@ -12,7 +12,6 @@ function WorkModePage({ onToggle }) {
           <span className="mode-intro__eyebrow">{mode.eyebrow}</span>
           <h1>{mode.title}</h1>
           <p>{mode.description}</p>
-          <div className="mode-intro__chips"><span>Evidence over guesses</span><span>Production aware</span></div>
         </div>
         <button className="mode-face" type="button" onClick={onToggle} aria-label="Switch to Learn Mode">
           <span className="mode-face__hint">Switch mode</span>

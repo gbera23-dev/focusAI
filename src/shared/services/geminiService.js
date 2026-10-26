@@ -3,8 +3,9 @@ import { prompts } from '../../resources/prompts'
 
 let activeMode = 'learn'
 const SESSION_STORAGE_KEY = 'focusai.session-context.v1'
+const DEFAULT_SCRATCHPAD = { code: '', language: 'c' }
 
-const emptyContexts = () => ({ learn: [], work: [] })
+const emptyContexts = () => ({ learn: [], work: [], scratchpad: { ...DEFAULT_SCRATCHPAD } })
 
 const readStoredContexts = () => {
   if (typeof window === 'undefined') return emptyContexts()
@@ -14,6 +15,10 @@ const readStoredContexts = () => {
     return {
       learn: Array.isArray(storedContexts.learn) ? storedContexts.learn : [],
       work: Array.isArray(storedContexts.work) ? storedContexts.work : [],
+      scratchpad: {
+        code: typeof storedContexts.scratchpad?.code === 'string' ? storedContexts.scratchpad.code : DEFAULT_SCRATCHPAD.code,
+        language: typeof storedContexts.scratchpad?.language === 'string' ? storedContexts.scratchpad.language : DEFAULT_SCRATCHPAD.language,
+      },
     }
   } catch {
     return emptyContexts()
@@ -82,6 +87,23 @@ export function getSessionContext(mode = activeMode) {
   }
 
   return [...sessionContexts[mode]]
+}
+
+export function getScratchpad() {
+  return { ...sessionContexts.scratchpad }
+}
+
+export function saveScratchpad({ code, language }) {
+  sessionContexts = {
+    ...sessionContexts,
+    scratchpad: { code, language },
+  }
+  persistContexts()
+}
+
+export function clearScratchpad() {
+  sessionContexts = { ...sessionContexts, scratchpad: { ...DEFAULT_SCRATCHPAD } }
+  persistContexts()
 }
 
 export async function sendMessage(userPrompt, { mode = activeMode, iterations = 1, signal } = {}) {

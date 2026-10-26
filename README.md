@@ -1,6 +1,6 @@
 # focusAI
 
-Vite + React frontend with a local Python virtual environment ready for backend work.
+Vite + ReactJS
 
 ## Frontend
 

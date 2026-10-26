@@ -20,7 +20,7 @@ describe('generateContent', () => {
 
     expect(response).toEqual({ candidates: [] });
     expect(axios.post).toHaveBeenCalledWith(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent',
       {
         contents: [
           {
@@ -28,12 +28,16 @@ describe('generateContent', () => {
             parts: [{ text: 'Explain closures simply.' }],
           },
         ],
+        generationConfig: {
+          maxOutputTokens: 2048,
+        },
       },
       {
         headers: {
           'Content-Type': 'application/json',
           'x-goog-api-key': 'test-gemini-key',
         },
+        timeout: 30_000,
       },
     );
   });

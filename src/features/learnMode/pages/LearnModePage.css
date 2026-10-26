@@ -1,0 +1,3 @@
+.mode-page--learn { --mode: #e4c62d; --mode-deep: #806f05; --mode-soft: #fff8d9; --mode-border: #ecdc78; --mode-glow: rgba(228, 198, 45, 0.22); }
+.mode-page--learn .mode-intro__copy { max-width: 560px; }
+.mode-page--learn .mode-face { background-image: url('../../../assets/learn-mode.jpeg'); box-shadow: 0 22px 55px rgba(210, 174, 24, 0.2); }

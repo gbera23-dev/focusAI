@@ -1,0 +1,4 @@
+.mode-toggle { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; border: 1px solid var(--mode-border); border-radius: 999px; color: var(--ink); background: var(--mode-soft); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.02em; transition: background 0.35s ease, border-color 0.35s ease, transform 0.2s ease; }
+.mode-toggle:hover { transform: translateY(-1px); }
+.mode-toggle__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mode); box-shadow: 0 0 0 4px var(--mode-glow); }
+.mode-toggle__arrow { margin-left: 2px; color: var(--muted); font-size: 1rem; }

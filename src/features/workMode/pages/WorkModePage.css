@@ -1,0 +1,3 @@
+.mode-page--work { --mode: #d74b55; --mode-deep: #8e2430; --mode-soft: #fff0f0; --mode-border: #edb9bd; --mode-glow: rgba(215, 75, 85, 0.2); }
+.mode-page--work .mode-intro__copy { max-width: 560px; }
+.mode-page--work .mode-face { background-image: url('../../../assets/work-mode.jpeg'); box-shadow: 0 22px 55px rgba(180, 35, 52, 0.22); }
